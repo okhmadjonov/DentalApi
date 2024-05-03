@@ -4,15 +4,15 @@ using Dental.Domain.Entities.Users;
 using Dental.Domain.Interfaces;
 using Dental.Domain.Models.UserModels;
 using Dental.Service.Exceptions;
+using Dental.Service.Extentions;
 using Dental.Service.Interfaces.Users;
-using Home.Service.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Dental.Service.Services.Users;
 
 
-internal sealed class UserService : IUserRepository
+public  class UserService : IUserRepository
 {
     private readonly IGenericRepository<User> _userRepository;
 

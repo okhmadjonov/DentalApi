@@ -19,24 +19,24 @@ public class GenericRepository<T> : IGenericRepository<T>
         this.dbSet = dbContext.Set<T>();
     }
 
-    public virtual IQueryable<T> GetAll(
-        Expression<Func<T, bool>> expression,
-        string[] includes = null,
-        bool isTracking = true
-    )
-    {
-        var query = expression is null ? dbSet : dbSet.Where(expression);
+    //public virtual IQueryable<T> GetAll(
+    //    Expression<Func<T, bool>> expression,
+    //    string[] includes = null,
+    //    bool isTracking = true
+    //)
+    //{
+    //    var query = expression is null ? dbSet : dbSet.Where(expression);
+        
+    //    if (includes != null)
+    //        foreach (var include in includes)
+    //            if (!string.IsNullOrEmpty(include))
+    //                query = query.Include(include);
 
-        if (includes != null)
-            foreach (var include in includes)
-                if (!string.IsNullOrEmpty(include))
-                    query = query.Include(include);
+    //    if (!isTracking)
+    //        query = query.AsNoTracking();
 
-        if (!isTracking)
-            query = query.AsNoTracking();
-
-        return query;
-    }
+    //    return query;
+    //}
 
     public virtual async ValueTask<T> GetAsync(
         Expression<Func<T, bool>> expression,
@@ -46,7 +46,7 @@ public class GenericRepository<T> : IGenericRepository<T>
 
     public async ValueTask<T> CreateAsync(T entity)
     {
-        dbContext.Set<T>().Add(entity); // This line might be causing the issue
+        dbContext.Set<T>().Add(entity); 
         await dbContext.SaveChangesAsync();
         return entity;
 
@@ -67,4 +67,19 @@ public class GenericRepository<T> : IGenericRepository<T>
     public T Update(T entity) => dbSet.Update(entity).Entity;
 
     public async ValueTask SaveChangesAsync() => await dbContext.SaveChangesAsync();
+
+    public IQueryable<T> GetAll(Expression<Func<T, bool>> expression, string[] includes = null, bool isTracking = true, object @params = null)
+    {
+        var query = expression is null ? dbSet : dbSet.Where(expression);
+
+        if (includes != null)
+            foreach (var include in includes)
+                if (!string.IsNullOrEmpty(include))
+                    query = query.Include(include);
+
+        if (!isTracking)
+            query = query.AsNoTracking();
+
+        return query;
+    }
 }

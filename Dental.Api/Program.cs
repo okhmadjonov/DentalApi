@@ -1,13 +1,26 @@
 using Dental.Api.Configurations;
 using Dental.Api.Middlewares;
-using Dental.Infrastructure.Context;
-using Dental.Service.Extentions;
+using Dental.Service.Interfaces.Auth;
+using Dental.Service.Interfaces.Students;
+using Dental.Service.Interfaces.Tokens;
+using Dental.Service.Interfaces.Users;
+using Dental.Service.Services.Students;
+using Dental.Service.Services.Users;
+using Dental.Service.Services.Auth;
+using Dental.Service.TokenGenerators;
 using Microsoft.EntityFrameworkCore;
+using Dental.Infrastructure.Context;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ITokenRepository, TokenGenerator>();
+builder.Services.AddScoped<IAuthRepository, AuthService>();
+builder.Services.AddScoped<IUserRepository, UserService>();
+builder.Services.AddScoped<IStudentRepository, StudentService>();
+
+
 
 builder.Services.AddDbContext<DentalDbContext>(option =>
 {
@@ -24,7 +37,6 @@ builder.Services.AddDbContext<DentalDbContext>(option =>
 
 builder.Services.AddServiceFunctionsConfiguration()
             .AddErrorFilter()
-            .AddServiceConfiguration()
             .AddSwaggerService(builder.Configuration);
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -33,8 +45,6 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     using var db = scope.ServiceProvider.GetRequiredService<DentalDbContext>();
-    // db.Database.Migrate();
-
 }
 if (app.Environment.IsDevelopment())
 {
@@ -50,7 +60,7 @@ app.UseCors(builder =>
 });
 app.UseStaticFiles();
 //app.UseHttpsRedirection();
-//app.UseMiddleware<DentalExceptionMiddleware>();
+app.UseMiddleware<DentalExceptionMiddleware>();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();

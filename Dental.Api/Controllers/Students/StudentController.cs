@@ -4,7 +4,6 @@ using Dental.Domain.Models.Response;
 using Dental.Domain.Models.StudentModels;
 using Dental.Service.Extentions;
 using Dental.Service.Interfaces.Students;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dental.Api.Controllers.Students;

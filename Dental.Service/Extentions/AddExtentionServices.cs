@@ -1,6 +1,8 @@
-﻿using Dental.Service.Interfaces.Students;
+﻿using Dental.Service.Interfaces.Auth;
+using Dental.Service.Interfaces.Students;
 using Dental.Service.Interfaces.Tokens;
 using Dental.Service.Interfaces.Users;
+using Dental.Service.Services.Auth;
 using Dental.Service.Services.Students;
 using Dental.Service.Services.Users;
 using Dental.Service.TokenGenerators;

@@ -1,47 +1,59 @@
 ﻿using Dental.Domain.Configurations;
 using Dental.Domain.Dtos.Student;
 using Dental.Domain.Entities.Student;
-using Dental.Domain.Entities.Users;
 using Dental.Domain.Interfaces;
 using Dental.Domain.Models.StudentModels;
-using Dental.Domain.Models.UserModels;
 using Dental.Service.Exceptions;
 using Dental.Service.Interfaces.Students;
-using Dental.Service.Interfaces.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
+using Dapper;
 using System.Linq.Expressions;
-using System.Net.WebSockets;
+using Dental.Infrastructure.Context;
 
 namespace Dental.Service.Services.Students;
 
 public class StudentService : IStudentRepository
 {
+    private readonly DentalDbContext _dbContext;
     private readonly IGenericRepository<Student> _studentRepository;
+    private readonly IConfiguration _configuration;
 
-    public StudentService(IGenericRepository<Student> studentRepository)
+    public StudentService(IGenericRepository<Student> studentRepository, IConfiguration configuration)
     {
         _studentRepository = studentRepository;
+        _configuration = configuration;
+       
     }
+
+
     public async ValueTask<StudentModel> CreateAsync(StudentDto studentDto)
     {
-        var existStudent = await _studentRepository.GetAsync(u => u.Name_uz == studentDto.Name_uz);
-
-        if (existStudent is not null)
+        if (studentDto is null)
         {
-            throw new DentalException(404, "user_not_found");
+            throw new DentalException(404, "student_cannot_be_null");
         }
-       // 
-       var model = new Student();
 
-        model.Name_uz = studentDto.Name_uz;
-        model.Name_ru = studentDto.Name_ru;
-        model.Name_en = studentDto.Name_en;
-        model.IsDeleted = studentDto.IsDeleted;
+        int newStudentId = await FindFreeStudentId();
+
+        var model = new Student
+        {
+            Id = newStudentId, 
+            Name_uz = studentDto.Name_uz,
+            Name_ru = studentDto.Name_ru,
+            Name_en = studentDto.Name_en,
+            IsDeleted = studentDto.IsDeleted,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
 
         var createdStudent = await _studentRepository.CreateAsync(model);
         await _studentRepository.SaveChangesAsync();
+
         return new StudentModel().MapFromEntity(createdStudent);
     }
+
 
     public async ValueTask<bool> DeleteAsync(int id)
     {
@@ -93,5 +105,23 @@ public class StudentService : IStudentRepository
         student.UpdatedAt = DateTime.UtcNow;
         await _studentRepository.SaveChangesAsync();
         return new StudentModel().MapFromEntity(student);
+    }
+
+    private async ValueTask<int> FindFreeStudentId()
+    {
+        int newStudentId = 1;
+        bool idExists;
+
+        do
+        {
+            idExists = await _studentRepository.GetAsync(student => student.Id == newStudentId) != null;
+
+            if (idExists)
+            {
+                newStudentId++;
+            }
+        } while (idExists); 
+
+        return newStudentId;
     }
 }

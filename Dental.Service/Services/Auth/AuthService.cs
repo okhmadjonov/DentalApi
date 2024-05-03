@@ -3,14 +3,15 @@ using Dental.Domain.Entities.Users;
 using Dental.Domain.Interfaces;
 using Dental.Domain.Models.UserModels;
 using Dental.Service.Exceptions;
+using Dental.Service.Extentions;
+using Dental.Service.Interfaces.Auth;
 using Dental.Service.Interfaces.Tokens;
-using Dental.Service.Interfaces.Users;
-using Home.Service.Extensions;
-
-namespace Dental.Service.Services.Users;
 
 
-internal sealed class AuthService : IAuthRepository
+namespace Dental.Service.Services.Auth;
+
+
+public  class AuthService : IAuthRepository
 {
     private readonly IGenericRepository<User> _userRepository;
     private readonly ITokenRepository _tokenGenerator;

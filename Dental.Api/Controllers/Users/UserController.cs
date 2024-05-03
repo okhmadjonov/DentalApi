@@ -4,9 +4,9 @@ using Dental.Domain.Dtos.User;
 using Dental.Domain.Models.Response;
 using Dental.Domain.Models.UserModels;
 using Dental.Service.Extentions;
+using Dental.Service.Interfaces.Auth;
 using Dental.Service.Interfaces.Users;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dental.Api.Controllers.Users;

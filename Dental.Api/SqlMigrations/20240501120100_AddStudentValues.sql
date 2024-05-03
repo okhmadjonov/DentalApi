@@ -1,7 +1,7 @@
 ﻿insert into "Students" ("Id","Name_en", 
 "Name_ru","Name_uz","IsDeleted",  "CreatedAt", "UpdatedAt") 
 values
-(1,
+(4,
 'Alisher',
 'Aleksey',
 'John',

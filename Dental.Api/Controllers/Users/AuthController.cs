@@ -3,7 +3,7 @@ using Dental.Domain.Dtos.User;
 using Dental.Domain.Models.Response;
 using Dental.Domain.Models.UserModels;
 using Dental.Service.Extentions;
-using Dental.Service.Interfaces.Users;
+using Dental.Service.Interfaces.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dental.Api.Controllers.Users;

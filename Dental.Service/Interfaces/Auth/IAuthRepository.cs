@@ -1,7 +1,7 @@
 ﻿using Dental.Domain.Dtos.User;
 using Dental.Domain.Models.UserModels;
 
-namespace Dental.Service.Interfaces.Users;
+namespace Dental.Service.Interfaces.Auth;
 
 public interface IAuthRepository
 {

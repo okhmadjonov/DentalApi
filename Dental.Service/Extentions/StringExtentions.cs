@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-namespace Home.Service.Extensions;
+
+namespace Dental.Service.Extentions;
 
 public static class StringExtentions
 {

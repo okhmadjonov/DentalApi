@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <BaseOutputPath>C:\Users\nemo\Desktop\dent\Dental\Infrastructure\bin\Debug\net7.0</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,11 +20,13 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.1" />
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Dental.Domain\Dental.Domain.csproj" />
-    <ProjectReference Include="..\Dental.Service\Dental.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,5 @@
 ﻿using Dental.Domain.Models.Response;
 using Dental.Service.Exceptions;
-using System.Runtime.InteropServices;
 
 namespace Dental.Api.Middlewares;
 
